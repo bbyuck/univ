@@ -1,0 +1,36 @@
+import java.sql.*;
+
+
+public class Main {
+	public static void main(String arg[]) {	
+		String url = "jdbc:postgresql://127.0.0.1:5432/project_movie";
+		String userid = "postgres";
+		String pw = "cse3207";
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+		}
+		catch (ClassNotFoundException e){
+			System.out.println("Where is your PostgresSQL JDBC Driver? Include in your library path");
+			e.printStackTrace();
+			return;
+		}
+		
+		Connection conn = null;
+		
+		try {
+			conn = DriverManager.getConnection(url, userid, pw);
+			conn.close();
+		}
+		catch (SQLException e) {
+			System.out.println("Connection Failed! Check output console");
+			e.printStackTrace();
+			return;
+		}
+		
+		System.out.println(conn);
+		System.out.println("You made it, take control your database now!");
+		
+
+	}
+}

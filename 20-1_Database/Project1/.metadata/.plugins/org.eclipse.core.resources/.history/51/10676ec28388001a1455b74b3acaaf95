@@ -1,0 +1,274 @@
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+public class Main {
+	public static void main(String arg[]) {	
+		String url = "jdbc:postgresql://127.0.0.1:5432/project_movie";
+		String userid = "postgres";
+		String pw = "cse3207";
+		String desc = "Translated SQL : ";
+		String sql;
+		String getterSql;
+		
+		int directorID;
+		int actorID;
+		int movieID;
+		int awardID;
+		String genreName;
+		int customerID;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+		}
+		catch (ClassNotFoundException e){
+			System.out.println("Where is your PostgresSQL JDBC Driver? Include in your library path");
+			e.printStackTrace();
+			return;
+		}
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection(url, userid, pw);
+			System.out.println("DB 연결 성공!");
+		}
+		catch (SQLException e) {
+			System.out.println("Connection Failed! Check output console");
+			e.printStackTrace();
+			return;
+		}
+		
+		// 1. Create Table and insert initial data
+		try {
+			sql = "CREATE TABLE director(\r\n" + 
+					"	directorID serial primary key,\r\n" + 
+					"	directorName varchar(40),\r\n" + 
+					"	dateOfBirth char(10),\r\n" + 
+					"	dateOfDeath char(10)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE actor(\r\n" + 
+					"	actorID serial primary key,\r\n" + 
+					"	actorName varchar(40),\r\n" + 
+					"	dateOfBirth char(10),\r\n" + 
+					"	dateOfDeath char(10),\r\n" + 
+					"	gender int\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE movie(\r\n" + 
+					"	movieID serial primary key,\r\n" + 
+					"	movieName varchar(50),\r\n" + 
+					"	releaseYear char(4),\r\n" + 
+					"	releaseMonth char(2),\r\n" + 
+					"	releaseDate char(2),\r\n" + 
+					"	publisherName varchar(50),\r\n" + 
+					"	avgRate float\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE award(\r\n" + 
+					"	awardID serial primary key,\r\n" + 
+					"	awardName varchar(50)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE genre(\r\n" + 
+					"	genreName varchar(30) primary key\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE movieGenre (\r\n" + 
+					"	movieID int,\r\n" + 
+					"	genreName varchar(30),\r\n" + 
+					"	foreign key(movieID) references movie,\r\n" + 
+					"	foreign key(genreName) references genre,\r\n" + 
+					"	primary key(movieID, genreName)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE movieObtain(\r\n" + 
+					"	movieID int,\r\n" + 
+					"	awardID int,\r\n" + 
+					"	year char(4),\r\n" + 
+					"	foreign key(movieID) references movie,\r\n" + 
+					"	foreign key(awardID) references award,\r\n" + 
+					"	primary key(movieID, awardID)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE actorObtain(\r\n" + 
+					"	actorID int,\r\n" + 
+					"	awardID int,\r\n" + 
+					"	year char(4),\r\n" + 
+					"	foreign key(actorID) references actor,\r\n" + 
+					"	foreign key(awardID) references award,\r\n" + 
+					"	primary key(actorID, awardID)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE directorObtain(\r\n" + 
+					"	directorID int,\r\n" + 
+					"	awardID int,\r\n" + 
+					"	year char(4),\r\n" + 
+					"	foreign key(directorID) references director,\r\n" + 
+					"	foreign key(awardID) references award,\r\n" + 
+					"	primary key(directorID, awardID)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE casting(\r\n" + 
+					"	movieID int,\r\n" + 
+					"	actorID int,\r\n" + 
+					"	role int,\r\n" + 
+					"	foreign key(movieID) references movie,\r\n" + 
+					"	foreign key(actorID) references actor,\r\n" + 
+					"	primary key(movieID, actorID)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE make(\r\n" + 
+					"	movieID int,\r\n" + 
+					"	directorID int,\r\n" + 
+					"	foreign key(movieID) references movie,\r\n" + 
+					"	foreign key(directorID) references director,\r\n" + 
+					"	primary key(movieID, directorID)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE customer (\r\n" + 
+					"	customerID serial,\r\n" + 
+					"	customerName varchar(40),\r\n" + 
+					"	dateOfBirth char(10),\r\n" + 
+					"	gender int,\r\n" + 
+					"	primary key(customerID)\r\n" + 
+					");\r\n" + 
+					"\r\n" + 
+					"CREATE TABLE customerRate(\r\n" + 
+					"	customerID int,\r\n" + 
+					"	movieID int,\r\n" + 
+					"	rate int,\r\n" + 
+					"	foreign key(customerID) references customer,\r\n" + 
+					"	foreign key(movieID) references movie,\r\n" + 
+					"	primary key(customerID, movieID)\r\n" + 
+					");";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			System.out.println("Table 생성 완료!");
+			
+			sql = "INSERT INTO director VALUES(default, 'Tim Burton','1958.08.25',null);\r\n" + 
+					"INSERT INTO director VALUES(default, 'David Fincher','1962.08.28',null);\r\n" + 
+					"INSERT INTO director VALUES(default, 'Christopher Nolan','1970.07.30',null);\r\n" + 
+					"INSERT INTO customer VALUES(default, 'Bob', '1997.11.14', 1);\r\n" + 
+					"INSERT INTO customer VALUES(default, 'John', '1978.01.23', 1);\r\n" + 
+					"INSERT INTO customer VALUES(default, 'Jack', '1980.05.04', 1);\r\n" + 
+					"INSERT INTO customer VALUES(default, 'Jill', '1981.04.17', 0);\r\n" + 
+					"INSERT INTO customer VALUES(default, 'Bell', '1990.05.14', 0);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Johnny Depp', '1963.06.09', null, 1);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Winona Ryder', '1971.10.29', null, 0);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Anne Hathaway', '1982.11.12', null, 0);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Christian Bale', '1974.01.30', null, 1);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Heath Ledger', '1979.04.04', '2008.01.22', 1);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Jesse Eisenberg', '1983.10.05', null, 1);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Andrew Garfield', '1983.08.20', null, 1);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Fionn Whitehead', '1997.07.18', null, 1);\r\n" + 
+					"INSERT INTO actor VALUES(default, 'Tom Hardy', '1963.09.15', null, 1);\r\n" + 
+					"INSERT INTO movie VALUES(default, 'Edward Scissorhands', '1991', '06', '29', '20th Century Fox Presents', default);\r\n" + 
+					"INSERT INTO movie VALUES(default, 'Alice In Wonderland', '2010', '03', '04', 'Korea Sony Pictures', default);\r\n" + 
+					"INSERT INTO movie VALUES(default, 'The Social Network', '2010', '11', '18', 'Korea Sony Pictures', default);\r\n" + 
+					"INSERT INTO movie VALUES(default, 'The Dark Knight', '2008', '08', '06', 'Warner Brothers Korea', default);\r\n" + 
+					"INSERT INTO movie VALUES(default, 'Dunkirk', '2017', '07', '13', 'Warner Brothers Korea', default);\r\n" + 
+					"INSERT INTO genre VALUES('Fantasy');\r\n" + 
+					"INSERT INTO genre VALUES('Romance');\r\n" + 
+					"INSERT INTO genre VALUES('Adventure');\r\n" + 
+					"INSERT INTO genre VALUES('Family');\r\n" + 
+					"INSERT INTO genre VALUES('Drama');\r\n" + 
+					"INSERT INTO genre VALUES('Action');\r\n" + 
+					"INSERT INTO genre VALUES('Mystery');\r\n" + 
+					"INSERT INTO genre VALUES('Thriller');\r\n" + 
+					"INSERT INTO genre VALUES('War');\r\n";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+			sql = "INSERT INTO movieGenre VALUES(?, ?)";
+			
+			getterSql = "SELECT movieID FROM movie WHERE movieName = 'Edward Scissorhands'";
+			pstmt = conn.prepareStatement(getterSql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			movieID = rs.getInt(1);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieID);
+			pstmt.setString(2, "Fantasy");
+			pstmt.executeUpdate();
+			
+			pstmt.setString(2, "Romance");
+			pstmt.executeUpdate();
+			
+			getterSql = "SELECT movieID FROM movie WHERE movieName = 'Alice In Wonderland'";
+			pstmt = conn.prepareStatement(getterSql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			movieID = rs.getInt(1);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieID);
+			pstmt.setString(2, "Fantasy");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Adventure");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Family");
+			pstmt.executeUpdate();
+			
+			getterSql = "SELECT movieID FROM movie WHERE movieName = 'The Social Network'";
+			pstmt = conn.prepareStatement(getterSql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			movieID = rs.getInt(1);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieID);
+			pstmt.setString(2, "Drama");
+			pstmt.executeUpdate();
+			
+			getterSql = "SELECT movieID FROM movie WHERE movieName = 'The Dark Knight'";
+			pstmt = conn.prepareStatement(getterSql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			movieID = rs.getInt(1);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieID);
+			pstmt.setString(2, "Action");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Drama");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Mystery");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Thriller");
+			pstmt.executeUpdate();
+			
+			getterSql = "SELECT movieID FROM movie WHERE movieName = 'Dunkirk'";
+			pstmt = conn.prepareStatement(getterSql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			movieID = rs.getInt(1);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieID);
+			pstmt.setString(2, "Action");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Drama");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "Thriller");
+			pstmt.executeUpdate();
+			pstmt.setString(2, "War");
+			pstmt.executeUpdate();
+			
+			System.out.println("initial data 입력 완료");
+		} catch (SQLException e) {
+			System.out.println("1번 Query error");
+			e.printStackTrace();
+			return;
+		}
+		
+		
+		System.out.println(conn);
+
+		
+	}
+}

@@ -1,0 +1,184 @@
+-- Database: project_movie
+CREATE TABLE director(
+	directorID serial primary key,
+	directorName varchar(40),
+	dateOfBirth date,
+	dateOfDeath date
+);
+
+CREATE TABLE actor(
+	actorID serial primary key,
+	actorName varchar(40),
+	dateOfBirth date,
+	dateOfDeath date,
+	gender int
+);
+
+CREATE TABLE movie(
+	movieID serial primary key,
+	movieName varchar(50),
+	releaseYear char(4),
+	releaseMonth char(2),
+	releaseDate char(2),
+	publisherName varchar(50),
+	avgRate float
+);
+
+CREATE TABLE award(
+	awardID serial primary key,
+	awardName varchar(50)
+);
+
+CREATE TABLE genre(
+	genreName varchar(30) primary key
+);
+
+CREATE TABLE movieGenre (
+	movieID int,
+	genreName varchar(30),
+	foreign key(movieID) references movie,
+	foreign key(genreName) references genre,
+	primary key(movieID, genreName)
+);
+
+CREATE TABLE movieObtain(
+	movieID int,
+	awardID int,
+	year char(4),
+	foreign key(movieID) references movie,
+	foreign key(awardID) references award,
+	primary key(movieID, awardID)
+);
+
+CREATE TABLE actorObtain(
+	actorID int,
+	awardID int,
+	year char(4),
+	foreign key(actorID) references actor,
+	foreign key(awardID) references award,
+	primary key(actorID, awardID)
+);
+
+CREATE TABLE directorObtain(
+	directorID int,
+	awardID int,
+	year char(4),
+	foreign key(directorID) references director,
+	foreign key(awardID) references award,
+	primary key(directorID, awardID)
+);
+
+CREATE TABLE casting(
+	movieID int,
+	actorID int,
+	role int,
+	foreign key(movieID) references movie,
+	foreign key(actorID) references actor,
+	primary key(movieID, actorID)
+);
+
+CREATE TABLE make(
+	movieID int,
+	directorID int,
+	foreign key(movieID) references movie,
+	foreign key(directorID) references director,
+	primary key(movieID, directorID)
+);
+
+CREATE TABLE customer (
+	customerID serial,
+	customerName varchar(40),
+	dateOfBirth date,
+	gender int,
+	primary key(customerID)
+);
+
+CREATE TABLE customerRate(
+	customerID int,
+	movieID int,
+	rate int,
+	foreign key(customerID) references customer,
+	foreign key(movieID) references movie,
+	primary key(customerID, movieID)
+);
+
+
+/*initial data*/
+
+/*director*/
+
+INSERT INTO director VALUES(default, 'Tim Burton','1958-08-25',null);
+INSERT INTO director VALUES(default, 'David Fincher','1962-08-28',null);
+INSERT INTO director VALUES(default, 'Christopher Nolan','1970-07-30',null);
+SELECT * FROM director;
+
+/*Customer 남자 : 1, 여자 : 0*/
+INSERT INTO customer VALUES(default, 'Bob', '1997-11-14', 1);
+INSERT INTO customer VALUES(default, 'John', '1978-01-23', 1);
+INSERT INTO customer VALUES(default, 'Jack', '1980-05-04', 1);
+INSERT INTO customer VALUES(default, 'Jill', '1981-04-17', 0);
+INSERT INTO customer VALUES(default, 'Bell', '1990-05-14', 0);
+
+/*Actor 남자 : 1, 여자 : 0*/
+INSERT INTO actor VALUES(default, 'Johnny Depp', '1963-06-09', null, 1);
+INSERT INTO actor VALUES(default, 'Winona Ryder', '1971-10-29', null, 0);
+INSERT INTO actor VALUES(default, 'Anne Hathaway', '1982-11-12', null, 0);
+INSERT INTO actor VALUES(default, 'Christian Bale', '1974-01-30', null, 1);
+INSERT INTO actor VALUES(default, 'Heath Ledger', '1979-04-04', '2008-01-22', 1);
+INSERT INTO actor VALUES(default, 'Jesse Eisenberg', '1983-10-05', null, 1);
+INSERT INTO actor VALUES(default, 'Andrew Garfield', '1983-08-20', null, 1);
+INSERT INTO actor VALUES(default, 'Fionn Whitehead', '1997-07-18', null, 1);
+INSERT INTO actor VALUES(default, 'Tom Hardy', '1963-09-15', null, 1);
+
+/*Movie*/
+INSERT INTO movie VALUES(default, 'Edward Scissorhands', '1991', '06', '29', '20th Century Fox Presents', default);
+INSERT INTO movie VALUES(default, 'Alice In Wonderland', '2010', '03', '04', 'Korea Sony Pictures', default);
+INSERT INTO movie VALUES(default, 'The Social Network', '2010', '11', '18', 'Korea Sony Pictures', default);
+INSERT INTO movie VALUES(default, 'The Dark Knight', '2008', '08', '06', 'Warner Brothers Korea', default);
+INSERT INTO movie VALUES(default, 'Dunkirk', '2017', '07', '13', 'Warner Brothers Korea', default);
+
+/*Genre*/
+INSERT INTO genre VALUES('Fantasy');
+INSERT INTO genre VALUES('Romance');
+INSERT INTO genre VALUES('Adventure');
+INSERT INTO genre VALUES('Family');
+INSERT INTO genre VALUES('Drama');
+INSERT INTO genre VALUES('Action');
+INSERT INTO genre VALUES('Mystery');
+INSERT INTO genre VALUES('Thriller');
+INSERT INTO genre VALUES('War');
+
+/*movieGenre*/
+INSERT INTO movieGenre VALUES(1, 'Fantasy');
+INSERT INTO movieGenre VALUES(1, 'Romance');
+INSERT INTO movieGenre VALUES(2, 'Fantasy');
+INSERT INTO movieGenre VALUES(2, 'Adventure');
+INSERT INTO movieGenre VALUES(2, 'Family');
+INSERT INTO movieGenre VALUES(3, 'Drama');
+INSERT INTO movieGenre VALUES(4, 'Action');
+INSERT INTO movieGenre VALUES(4, 'Drama');
+INSERT INTO movieGenre VALUES(4, 'Mystery');
+INSERT INTO movieGenre VALUES(4, 'Thriller');
+INSERT INTO movieGenre VALUES(5, 'Action');
+INSERT INTO movieGenre VALUES(5, 'Drama');
+INSERT INTO movieGenre VALUES(5, 'Thriller');
+INSERT INTO movieGenre VALUES(5, 'War');
+
+/*casting 주연 : 1 조연 : 2*/
+INSERT INTO casting VALUES(1, 1, 1);
+INSERT INTO casting VALUES(1, 2, 1);
+INSERT INTO casting VALUES(2, 1, 1);
+INSERT INTO casting VALUES(2, 3, 1);
+INSERT INTO casting VALUES(3, 6, 1);
+INSERT INTO casting VALUES(3, 7, 2);
+INSERT INTO casting VALUES(4, 4, 1);
+INSERT INTO casting VALUES(4, 5, 1);
+INSERT INTO casting VALUES(5, 8, 1);
+INSERT INTO casting VALUES(5, 9, 1);
+
+/*make*/
+INSERT INTO make VALUES(1, 1);
+INSERT INTO make VALUES(2, 1);
+INSERT INTO make VALUES(3, 2);
+INSERT INTO make VALUES(4, 4);
+INSERT INTO make VALUES(5, 4);

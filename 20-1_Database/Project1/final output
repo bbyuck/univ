@@ -1,0 +1,398 @@
+DB 연결 성공!
+Table 생성 완료!
+initial data 입력 완료
+
+2.1
+Statement : Winona Ryder won the "Best supporting actor" award in 1994
+Translated SQL : INSERT INTO award VALUES(default, 'Best supporting actor')
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+
+Translated SQL : SELECT actorID FROM actor WHERE actorName='Winona Ryder'
+Winona Ryder's ID : 2
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best supporting actor'
+The ID of 'Best supporting actor' award : 1
+Translated SQL : INSERT INTO actorObtain VALUES(2, 1, 1994)
+Update Table
+------actorObtain------
+|actorID	|awardID	|year
+-------------------------------------
+|2		|1		|1994
+
+
+2.2
+Statement : Andrew Garfield won the "Best supporting actor" award in 2011
+Translated SQL : SELECT actorID FROM actor WHERE actorName='Andrew Garfiled'
+Andrew Garfiled's ID : 7
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best supporting actor'
+The ID of 'Best supportin actor' award : 1
+Translated SQL : INSERT INTO actorObtain VALUES(7, 1, 2011)
+Update Table
+------actorObtain------
+|actorID	|awardID	|year
+-------------------------------------
+|2		|1		|1994
+|7		|1		|2011
+
+
+2.3
+Statement : Jesse Eisenberg won the "Best main actor" award in 2011
+Translated SQL : INSERT INTO award VALUES(default, 'Best main actor')
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+|2		|Best main actor
+
+Translated SQL : SELECT actorID FROM actor WHERE actorName='Jesse Eisenberg'
+Jesse Eisenberg's ID : 6
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best main actor'
+The ID of 'Best main actor' award : 2
+Translated SQL : INSERT INTO actorObtain VALUES(6, 2, 2011)
+Update Table
+------actorObtain------
+|actorID	|awardID	|year
+-------------------------------------
+|2		|1		|1994
+|7		|1		|2011
+|6		|2		|2011
+
+
+2.4
+Statement : Johnny Depp won the "Best villain actor" award in 2011
+Translated SQL : INSERT INTO award VALUES(default, 'Best villain actor')
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+|2		|Best main actor
+|3		|Best villain actor
+
+Translated SQL : SELECT actorID FROM actor WHERE actorName='Johnny Depp'
+Johnny Depp's ID : 1
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best villain actor'
+The ID of 'Best main actor' award : 3
+Translated SQL : INSERT INTO actorObtain VALUES(1, 3, 2011)
+Update Table
+------actorObtain------
+|actorID	|awardID	|year
+-------------------------------------
+|2		|1		|1994
+|7		|1		|2011
+|6		|2		|2011
+|1		|3		|2011
+
+
+2.5
+Statement : Edward Scissorhands won the "Best fantasy movie" award in 1991
+Translated SQL : INSERT INTO award VALUES(default, 'Best fantasy movie')
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+|2		|Best main actor
+|3		|Best villain actor
+|4		|Best fantasy movie
+
+Translated SQL : SELECT movieID FROM movie WHERE movieName='Edward Scissorhands'
+The ID of 'Edward Scissorhands' : 1
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best fantasy movie'
+The ID of 'Best fantasy movie' award : 4
+Translated SQL : INSERT INTO movieObtain VALUES(1, 4, 1991)
+Update Table
+------movieObtain------
+|movieID	|awardID	|year
+-------------------------------------
+|1		|4		|1991
+
+
+2.6
+Statement : The Dark Knight won the "Best picture" award in 2009
+Translated SQL : INSERT INTO award VALUES(default, 'Best picture')
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+|2		|Best main actor
+|3		|Best villain actor
+|4		|Best fantasy movie
+|5		|Best picture
+
+Translated SQL : SELECT movieID FROM movie WHERE movieName='The Dark Knight'
+The ID of 'The Dark Knight' : 4
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best picture'
+The ID of 'Best picture' award : 5
+Translated SQL : INSERT INTO movieObtain VALUES(4, 5, 2009)
+Update Table
+------movieObtain------
+|movieID	|awardID	|year
+-------------------------------------
+|1		|4		|1991
+|4		|5		|2009
+
+
+2.7
+Statement : Alice In Wonderland won the "Best fantasy movie" award in 2011
+Translated SQL : SELECT movieID FROM movie WHERE movieName='Alice In Wonderland'
+The ID of 'Alice In Wonderland' : 2
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best fantasy movie'
+The ID of 'Best fantasy movie' award : 4
+Translated SQL : INSERT INTO movieObtain VALUES(2, 4, 2011)
+Update Table
+------movieObtain------
+|movieID	|awardID	|year
+-------------------------------------
+|1		|4		|1991
+|4		|5		|2009
+|2		|4		|2011
+
+
+2.8
+Statement : David Fincher won the "Best Director" award in 2011
+Translated SQL : INSERT INTO award VALUES(default, 'Best director')
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+|2		|Best main actor
+|3		|Best villain actor
+|4		|Best fantasy movie
+|5		|Best picture
+|6		|Best director
+
+Translated SQL : SELECT directorID FROM director WHERE directorName='David Fincher'
+David Fincher's ID : 2
+Translated SQL : SELECT awardID FROM award WHERE awardName='Best director'
+The ID of 'Best director' award : 6
+Translated SQL : INSERT INTO directorObtain VALUES(2, 6, 2011)
+Update Table
+------directorObtain------
+|directorID	|awardID	|year
+-------------------------------------
+|2		|6		|2011
+
+
+3.1
+Statement : Bob rates 5 to "The Dark Knight"
+Translated SQL : SELECT customerID FROM customer WHERE customerName='Bob'
+Bob's ID : 1
+Translated SQL : SELECT movieID FROM movie WHERE movieName='The Dark Knight'
+The ID of 'The Dark Knight' : 4
+Translated SQL : INSERT INTO customerRate VALUES(1, 4, 5)
+------customerRate------
+|customerID	|movieID	|rate
+-------------------------------------
+|1		|4		|5
+
+Translated SQL : UPDATE movie SET avgRate = (SELECT avg(rate) FROM customerRate WHERE movieID=4) WHERE movieID=4)
+------movie------
+|movieID	|movieName			|releaseYear	|releaseMonth	|releaseDate	|publisherName			|avgRate
+-------------------------------------
+|1		|Edward Scissorhands		|1991		|06		|29		|20th Century Fox Presents	|0.0
+|2		|Alice In Wonderland		|2010		|03		|04		|Korea Sony Pictures		|0.0
+|3		|The Social Network		|2010		|11		|18		|Korea Sony Pictures		|0.0
+|5		|Dunkirk			|2017		|07		|13		|Warner Brothers Korea		|0.0
+|4		|The Dark Knight		|2008		|08		|06		|Warner Brothers Korea		|5.0
+
+
+3.2
+Statement : Bell rates 5 to the moives whose director is "Tim Burton"
+Translated SQL : SELECT customerID FROM customer WHERE customerName='Bell'
+Bell's ID : 5
+Translated SQL : SELECT directorID FROM director WHERE directorName='Tim Burton'
+Tim Burton's ID : 1
+Translated SQL : SELECT movieID FROM make WHERE directorID = 1
+Translated SQL : INSERT INTO customerRate VALUES (5, 1, 5)
+Translated SQL : INSERT INTO customerRate VALUES (5, 2, 5)
+------customerRate------
+|customerID	|movieID	|rate
+-------------------------------------
+|1		|4		|5
+|5		|1		|5
+|5		|2		|5
+
+Translated SQL : UPDATE movie M SET avgRate = (SELECT value FROM (SELECT movieID, avg(rate) as value FROM customerRate group by movieID) as R	WHERE M.movieID = R.movieID)
+------movie------
+|movieID	|movieName			|releaseYear	|releaseMonth	|releaseDate	|publisherName			|avgRate
+-------------------------------------
+|1		|Edward Scissorhands		|1991		|06		|29		|20th Century Fox Presents	|5.0
+|2		|Alice In Wonderland		|2010		|03		|04		|Korea Sony Pictures		|5.0
+|3		|The Social Network		|2010		|11		|18		|Korea Sony Pictures		|0.0
+|5		|Dunkirk			|2017		|07		|13		|Warner Brothers Korea		|0.0
+|4		|The Dark Knight		|2008		|08		|06		|Warner Brothers Korea		|5.0
+
+
+3.3
+Statement : Jill rates 4 to the movies whose main actor is female
+Translated SQL : SELECT customerID FROM customer WHERE customerName='Jill'
+Jill's ID : 4
+Translated SQL : SELECT distinct casting.movieID FROM casting, (SELECT distinct actor.actorID	FROM actor, (SELECT casting.actorID	FROM casting WHERE role=1) as B WHERE gender=0 and actor.actorID = B.actorID) as C WHERE casting.actorID = C.actorID
+Translated SQL : INSERT INTO customerRate VALUES (4, 1, 5)
+Translated SQL : INSERT INTO customerRate VALUES (4, 2, 5)
+------customerRate------
+|customerID	|movieID	|rate
+-------------------------------------
+|1		|4		|5
+|5		|1		|5
+|5		|2		|5
+|4		|1		|4
+|4		|2		|4
+
+Translated SQL : UPDATE movie M SET avgRate = (SELECT value FROM (SELECT movieID, avg(rate) as value FROM customerRate group by movieID) as R	WHERE M.movieID = R.movieID)
+------movie------
+|movieID	|movieName			|releaseYear	|releaseMonth	|releaseDate	|publisherName			|avgRate
+-------------------------------------
+|1		|Edward Scissorhands		|1991		|06		|29		|20th Century Fox Presents	|4.5
+|2		|Alice In Wonderland		|2010		|03		|04		|Korea Sony Pictures		|4.5
+|3		|The Social Network		|2010		|11		|18		|Korea Sony Pictures		|0.0
+|5		|Dunkirk			|2017		|07		|13		|Warner Brothers Korea		|0.0
+|4		|The Dark Knight		|2008		|08		|06		|Warner Brothers Korea		|5.0
+
+
+3.4
+Statement : Jack rates 4 to the fantasy movies
+Translated SQL : SELECT customerID FROM customer WHERE customerName='Jack'
+Jack's ID : 3
+Translated SQL : SELECT movieID FROM movieGenre WHERE genreName='Fantasy'
+Translated SQL : INSERT INTO customerRate VALUES (3, 1, 5)
+Translated SQL : INSERT INTO customerRate VALUES (3, 2, 5)
+------customerRate------
+|customerID	|movieID	|rate
+-------------------------------------
+|1		|4		|5
+|5		|1		|5
+|5		|2		|5
+|4		|1		|4
+|4		|2		|4
+|3		|1		|4
+|3		|2		|4
+
+Translated SQL : UPDATE movie M SET avgRate = (SELECT value FROM (SELECT movieID, avg(rate) as value FROM customerRate group by movieID) as R	WHERE M.movieID = R.movieID)
+------movie------
+|movieID	|movieName			|releaseYear	|releaseMonth	|releaseDate	|publisherName			|avgRate
+-------------------------------------
+|1		|Edward Scissorhands		|1991		|06		|29		|20th Century Fox Presents	|4.3333335
+|2		|Alice In Wonderland		|2010		|03		|04		|Korea Sony Pictures		|4.3333335
+|3		|The Social Network		|2010		|11		|18		|Korea Sony Pictures		|0.0
+|5		|Dunkirk			|2017		|07		|13		|Warner Brothers Korea		|0.0
+|4		|The Dark Knight		|2008		|08		|06		|Warner Brothers Korea		|5.0
+
+
+3.5
+Statement : John rates 5 to the movies whose director won the "Best director" award
+Translated SQL : SELECT customerID FROM customer WHERE customerName='John'
+John's ID : 2
+Translated SQL : SELECT movieID FROM make, (SELECT directorID FROM directorObtain, (SELECT awardID FROM award WHERE awardName='Best director') as best WHERE directorObtain.awardID = best.awardID) best_director WHERE make.directorID = best_director.directorID
+Translated SQL : INSERT INTO customerRate VALUES (2, 3, 5)
+------customerRate------
+|customerID	|movieID	|rate
+-------------------------------------
+|1		|4		|5
+|5		|1		|5
+|5		|2		|5
+|4		|1		|4
+|4		|2		|4
+|3		|1		|4
+|3		|2		|4
+|2		|3		|5
+
+Translated SQL : UPDATE movie M SET avgRate = (SELECT value FROM (SELECT movieID, avg(rate) as value FROM customerRate group by movieID) as R	WHERE M.movieID = R.movieID)
+------movie------
+|movieID	|movieName			|releaseYear	|releaseMonth	|releaseDate	|publisherName			|avgRate
+-------------------------------------
+|1		|Edward Scissorhands		|1991		|06		|29		|20th Century Fox Presents	|4.3333335
+|2		|Alice In Wonderland		|2010		|03		|04		|Korea Sony Pictures		|4.3333335
+|3		|The Social Network		|2010		|11		|18		|Korea Sony Pictures		|5.0
+|5		|Dunkirk			|2017		|07		|13		|Warner Brothers Korea		|0.0
+|4		|The Dark Knight		|2008		|08		|06		|Warner Brothers Korea		|5.0
+
+
+4
+Statement : Select the names of the movies whose actor are dead.
+Translated SQL : SELECT distinct movieName FROM movie, (SELECT movieID FROM casting as C natural join (SELECT actorID FROM actor WHERE dateOfDeath is not null) as A) as mov WHERE movie.movieID = mov.movieID
+------result------
+|movieName
+-------------------------------------
+|The Dark Knight
+
+
+5
+Statement : Select the names of the directors who cast same actor more than once.
+Translated SQL : SELECT distinct directorName FROM (SELECT * FROM casting natural join (SELECT distinct A.directorID, A.movieID FROM make as A, make as B WHERE A.movieID != B.movieID and A.directorID = B.directorID) as DM WHERE casting.movieID = DM.movieID) as LS1, (SELECT * FROM casting natural join (SELECT distinct A.directorID, A.movieID FROM make as A, make as B WHERE A.movieID != B.movieID and A.directorID = B.directorID) as DM WHERE casting.movieID = DM.movieID) as LS2 natural join director WHERE LS1.movieID != LS2.movieID and LS1.directorID = LS2.directorID and LS1.actorID = LS2.actorID
+------result------
+|directorName
+-------------------------------------
+|Tim Burton
+
+
+6
+Statement : Select the names of the movies and genres, where movies have the common genre.
+Translated SQL : SELECT genreName FROM (SELECT genreName, COUNT(movieID) as hit FROM movieGenre group by genreName) as genre_per_hit WHERE genre_per_hit.hit = (SELECT MAX(hit) as val FROM (SELECT genreName, COUNT(movieID) as hit FROM movieGenre group by genreName) as genre_per_hit2)
+------common genre name (가장 흔한 장르 -> 가장 많은 영화가 이 장르)------
+|genreName
+-------------------------------------
+|Drama
+
+Translated SQL : SELECT genreName, movieName FROM movieGenre natural join movie natural join (SELECT genreName FROM (SELECT genreName, COUNT(movieID) as hit FROM movieGenre group by genreName) as genre_per_hit WHERE genre_per_hit.hit = (SELECT MAX(hit) as val FROM (SELECT genreName, COUNT(movieID) as hit FROM movieGenre group by genreName) as genre_per_hit2)) as mid
+------result------
+|genreName	|movieName
+-------------------------------------
+|Drama		|The Social Network
+|Drama		|The Dark Knight
+|Drama		|Dunkirk
+
+
+7
+Statement : Delete the movies which did not get any award(including all directors and actors) and delete data from related tables
+Translated SQL : DELETE FROM award WHERE not exists (SELECT awardID FROM directorObtain WHERE award.awardID = directorObtain.awardID) and not exists (SELECT awardID FROM actorObtain WHERE award.awardID = actorObtain.awardID) and not exists (SELECT awardID FROM movieObtain WHERE award.awardID = movieObtain.awardID)
+Update Table
+------award------
+|awardID	|awardName
+-------------------------------------
+|1		|Best supporting actor
+|2		|Best main actor
+|3		|Best villain actor
+|4		|Best fantasy movie
+|5		|Best picture
+|6		|Best director
+
+
+8
+Statement : Delete all customers and delete data from related tables.
+Translated SQL : DELETE FROM customerRate
+Update Table
+------customerRate------
+|customerID	|movieID	|rate
+-------------------------------------
+
+Translated SQL : UPDATE movie M SET avgRate = (SELECT value FROM (SELECT movieID, avg(rate) as value FROM customerRate group by movieID) as R	WHERE M.movieID = R.movieID)
+Update Table
+------movie------
+|movieID	|movieName			|releaseYear	|releaseMonth	|releaseDate	|publisherName			|avgRate
+-------------------------------------
+|1		|Edward Scissorhands		|1991		|06		|29		|20th Century Fox Presents	|0.0
+|2		|Alice In Wonderland		|2010		|03		|04		|Korea Sony Pictures		|0.0
+|3		|The Social Network		|2010		|11		|18		|Korea Sony Pictures		|0.0
+|5		|Dunkirk			|2017		|07		|13		|Warner Brothers Korea		|0.0
+|4		|The Dark Knight		|2008		|08		|06		|Warner Brothers Korea		|0.0
+
+Translated SQL : DELETE FROM customer
+Update Table
+------customer------
+|customerID	|customerName	|dateOfBirth	|gender
+-------------------------------------
+
+
+9
+Statement : Delete all tables and data
+Translated SQL : DROP TABLE customerRate; DROP TABLE customer; DROP TABLE make; DROP TABLE casting; DROP TABLE directorObtain; DROP TABLE actorObtain; DROP TABLE movieObtain; DROP TABLE movieGenre; DROP TABLE genre; DROP TABLE award; DROP TABLE movie; DROP TABLE actor; DROP TABLE director;
+모든 테이블 및 데이터 제거 완료
+

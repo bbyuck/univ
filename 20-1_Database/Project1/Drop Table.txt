@@ -1,0 +1,13 @@
+DROP TABLE customerRate;
+DROP TABLE customer;
+DROP TABLE make;
+DROP TABLE casting;
+DROP TABLE directorObtain;
+DROP TABLE actorObtain;
+DROP TABLE movieObtain;
+DROP TABLE movieGenre;
+DROP TABLE genre;
+DROP TABLE award;
+DROP TABLE movie;
+DROP TABLE actor;
+DROP TABLE director;
